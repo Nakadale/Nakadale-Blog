@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional// EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml11-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang = "en">
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=iso-8859-1">
+    <title>Nakadale Blog</title>
+	<?php include "css_style6.php" ?>
+<body>
+<div id="container">
+	<!--Header area of webpage-->
+	<div style="position: absolute; top:10px; left:10px;">
+	<a href="index6.php" style="color:white;"><img src="Img/wandering nakadale1.png" style="border-spacing:0px;border:0px;"></a>
+	<!--start of navigation area of webpage-->
+	<!--end of navigation area of webpage-->
+	</div>
+	<!--end of header of webpage-->
+	<div id="body" style="position: absolute;top:257px;left:10px;width:980px;">
+		<!-- right area of webpage -->
+		<table>
+		<tr><td valign="top" style="width:820px;">
+			<div style="background-image: url(Img/post1.png);background-repeat: no-repeat;width:810px;">
+			<?php
+			$user = "root";
+			//$pass = "dive";
+			$db = "sheaqu_dive";
+			$link = @mysql_connect( "localhost", $user, $pass );
+			//$user = "sheaqu_dive";
+			//$pass = "dive";
+			//$db = "sheaqu_dive";
+			//$link = @mysql_connect( "mysql4.freehostia.com", $user, $pass );
+			if (!$link) {
+			die("Couldn't connect to MySQL: ".mysql_error());
+			}
+			mysql_select_db($db,$link)
+			or die ( "Couldn't open $db: ".mysql_error() );
+			echo '<br />';
+			$result = @mysql_query("SELECT * FROM main_bulletin2 ORDER BY post_ID DESC",$link);
+			$num_rows = mysql_num_rows( $result );
+			while ($row = mysql_fetch_array($result, MYSQL_ASSOC)){
+			$count++;
+			if ($count== 1){
+			echo '<div style="position:absolute;left:50px;font-size:14px;"><b>Latest Post</b></div>';
+			echo '<div id="mainpost">';
+			echo '<input type="hidden" name="hideval" value="'.$row['post_id'].'"><br />';
+			echo '<a href="msg.php?ID='.$row['post_id'].'" style="font-size:14px;color:RGB(255,96,0);"><b>'.$row['post_title'].'</b></a><br />';
+			echo 'Date Posted: '.$row['post_date'].'<br /><br />';
+			echo wordwrap($row['post_content'],50,"\n",true).'<br />';
+			echo '</div>';
+			}
+		    if ($count == 2){
+			echo '<div style="position:absolute;left:520px;top:40px;font-size:14px;"><b>Previous Post</b></div>';
+			echo '<div id="secondpost">';
+			echo '<input type="hidden" name="hideval" value="'.$row['post_id'].'"><br />';
+			echo '<a href="msg.php?ID='.$row['post_id'].'" style="font-size:14px;color:RGB(255,96,0);"><b>'.$row['post_title'].'</b></a><br />';
+			echo 'Date Posted: '.$row['post_date'].'<br /><br />';
+			echo wordwrap($row['post_content'],40,"\n",true).'<br />';
+			echo '</div>';
+			}
+			}
+			?>
+			<div id="arch"><a href="" style="color:RGB(255,96,0);"><b>View Archive ></b></a>
+			</div>
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+			</div>
+			<br />
+		</td><td valign="top" align="center" style="width:160px;">
+		<?php include "comments6.php" ?>
+		</td></tr></table>
+
+	</div>
+</div>
+		<!--Footer of webpage-->
+		<?php include "footer6.php" ?>
+		<!--end of footer-->
+
+</body>
+</html>
